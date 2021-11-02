@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "digital-7";
+  src: url("digital-7.ttf");
+}
+
 * {
   box-sizing: border-box;
 }
@@ -30,6 +35,52 @@ body {
   border-bottom-color: #808080;
   border-right-color: #808080;
   user-select: none;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  border-style: solid;
+  border-width: 10px;
+  border-top-color: #808080;
+  border-left-color: #808080;
+  border-bottom-color: white;
+  border-right-color: white;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  font-family: "digital-7";
+  font-weight: 500;
+  color: #ff0000;
+}
+
+.counting {
+  width: 72px;
+  text-align: left;
+  background-color: black;
+  padding: 0px 2px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  outline: none;
+  background-size: 100%;
+}
+
+.icon:active {
+  background-image: url("./face_pressed.svg");
+}
+
+.smiling {
+  background-image: url("./face_unpressed.svg");
+}
+
+.lose {
+  background-image: url("./face_lose.svg");
+}
+
+.win {
+  background-image: url("./face_active.svg");
 }
 
 .board {

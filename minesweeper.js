@@ -5,14 +5,18 @@ export const TILE_STATUSES = {
     MARKED: "marked",
 }
 
+let tempPositions;
+
 export function createBoard(boardSize, numberOfMines) {
     const board = []
     const minePositions = getMinePositions(boardSize, numberOfMines)
-
+    console.log(minePositions)
+    tempPositions = minePositions
     for (let x = 0; x < boardSize; x++) {
         const row = []
         for (let y = 0; y < boardSize; y++) {
             const element = document.createElement("div")
+            element.setAttribute('id', `${x}-${y}`)
             element.dataset.status = TILE_STATUSES.HIDDEN
 
             const tile = {
@@ -43,10 +47,11 @@ export function markTile(tile) {
     ) {
         return
     }
-
     if (tile.status === TILE_STATUSES.MARKED) {
+        tile.element.setAttribute("data-status", TILE_STATUSES.HIDDEN)
         tile.status = TILE_STATUSES.HIDDEN
     } else {
+        tile.element.setAttribute("data-status", TILE_STATUSES.MARKED)
         tile.status = TILE_STATUSES.MARKED
     }
 }
@@ -55,13 +60,14 @@ export function revealTile(board, tile) {
     if (tile.status !== TILE_STATUSES.HIDDEN) {
         return
     }
-
+    tile.mine = tempPositions.some(positionMatch.bind(null, { x: tile.x, y: tile.y }))
     if (tile.mine) {
         tile.status = TILE_STATUSES.MINE
+        tile.element.setAttribute("data-status", TILE_STATUSES.MINE)
         return
     }
-
     tile.status = TILE_STATUSES.NUMBER
+    tile.element.setAttribute("data-status", TILE_STATUSES.NUMBER)
     const adjacentTiles = nearbyTiles(board, tile)
     const mines = adjacentTiles.filter(t => t.mine)
     if (mines.length === 0) {
@@ -87,7 +93,6 @@ export function revealTile(board, tile) {
                 break;
             default:
                 tile.element.classList.add("higher");
-
                 break;
         }
         tile.element.textContent = mines.length
@@ -142,7 +147,6 @@ function randomNumber(size) {
 
 function nearbyTiles(board, { x, y }) {
     const tiles = []
-
     for (let xOffset = -1; xOffset <= 1; xOffset++) {
         for (let yOffset = -1; yOffset <= 1; yOffset++) {
             const tile = board[x + xOffset]?.[y + yOffset]
