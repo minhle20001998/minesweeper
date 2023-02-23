@@ -5,7 +5,7 @@ export const TILE_STATUSES = {
     MARKED: "marked",
 }
 
-let tempPositions;
+let tempPositions;;;;
 
 export function createBoard(boardSize, numberOfMines) {
     const board = []
